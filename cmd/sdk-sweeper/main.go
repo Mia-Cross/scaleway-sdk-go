@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	blockSweeper "github.com/scaleway/scaleway-sdk-go/api/block/v1alpha1/sweepers"
 	containerSweeper "github.com/scaleway/scaleway-sdk-go/api/container/v1beta1/sweepers"
 	instanceSweeper "github.com/scaleway/scaleway-sdk-go/api/instance/v1/sweepers"
 	"github.com/scaleway/scaleway-sdk-go/scw"
@@ -53,6 +54,11 @@ func mainNoExit() int {
 	err = instanceSweeper.SweepAllLocalities(client)
 	if err != nil {
 		errs = append(errs, fmt.Errorf("error sweeping instance: %w", err))
+	}
+
+	err = blockSweeper.SweepAllLocalities(client)
+	if err != nil {
+		errs = append(errs, fmt.Errorf("error sweeping block: %w", err))
 	}
 
 	if len(errs) > 0 {
